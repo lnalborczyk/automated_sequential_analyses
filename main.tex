@@ -36,39 +36,48 @@ with optimal NHST, while having the same or lower long-term rate of wrong infere
 \lnnote{Ça me semble un peu léger pour un tuto... non ? On présenterait quoi ? juste une fonction qui ajoute un argument "blind" aux fonctions existantes ? Ça ferait un bon article de blog mais je pense que c'est un peu léger pour un tuto...PS: je pense que Psych. Meth. accepte les comments, même s'ils ne le précisent, mais il faudrait juste s'en assurer... je peux m'occupper de vérifier ça}
 
 \section{Proposition de plan}
-\lnnote{
-1. Introduction, état du problème
-1.1 Présentation de la méthode de sequential testing, telle qu'exposée dans les deux papiers de Schönbrodt et al. (2017a, 2017b)
-1.2 Problèmes
-1.2.1 Non-respect de l'hypothèse d'indépendance des observations ? Vérifier que c'est un problème pour le BF, mais il me semble que oui...
-1.2.2 Biais de demande...sachant la taille d'effet (à trouver) habituelle du biais de demande, on pourrait estimer le biais (i.e., la différence de N entre une procédure de sequential testing non biaisée (i.e., en aveugle) et une procédure biaisée) lié à la connaissance des résultats du participant N-1...
-2. Solutions, comment régler le problème ?
-2.1 Blinding: soit l'analyste et l'expérimentateur sont deux personnes différentes, soit il s'agit de la même personne mais elle doit se rendre aveugle aux résultats du participant N-1.
-2.2 On pourrait aussi proposer une solution pratique immédiate, genre script qui permet de se rendre aveugle aux résultats précédents (j'ai déjà un truc du genre de prêt), voire même un petit package ?}
-\bbnote{exact et ça peut donc passer pour un tuto éventuellement}
-\lnnote{3. Evaluation du biais ?
-3.1 Propositions de protocoles expérimentaux permettant de mettre en évidence le biais.
-3.2 On pourrait profiter de ce papier pour lancer un appel à contribution à une grosse manip multi-lab all around the world, pour évaluer l'amplitude de ce biais, comme on avait commencé à discuter...non ?}\bbnote{super idée j'aime cet séquence évolutive vmvc}
+
+\renewcommand{\labelenumii}{\Roman{enumii}}
+\begin{enumerate}
+	\item{Introduction, état du problème}
+	\begin{enumerate}
+		\item{Présentation de la méthode SBF}
+		\item{Problèmes}
+			\begin{enumerate}
+            \item{Non-respect de l'hypothèse d'indépendance des observations}
+            \item{Biais de demande...}
+            \end{enumerate}
+            \end{enumerate}
+            \item{Solutions, comment régler le problème ?}
+            \begin{enumerate}
+            \item{Blinding: soit triple blind (expé != analyst), soit blinding via software, cf. point suivant}
+            \item{On peut proposer ici une solution pratique immédiate, genre une version modifiée de la fonction de félix qui ajouter un argument "blind" (en cours...)}
+            \end{enumerate}
+            \item{Evaluation du biais ?}
+            \begin{enumerate}
+            \item{Propositions de protocoles expérimentaux permettant de mettre en évidence le biais, prédictions.}
+            \item{On pourrait profiter de ce papier pour lancer un appel à contribution à une grosse manip multi-lab all around the world, pour évaluer l'amplitude de ce biais, comme on avait commencé à discuter...non ?}
+
+\end{enumerate}
+\end{enumerate}
+
+\bbnote{super idée j'aime cet séquence évolutive vmvc}
 
 \section{Sondage et liste des arguments pour ou contre inclure Wagenmakers, Schönbrodt, Perugini et cie ?}
 
-Pour: ils sont forts, ils peuvent nous éviter de dire des bêtises, ça fait moins "attaque" s'ils sont aussi auteurs...	
+\emph{Pour}: ils sont forts, ils peuvent nous éviter de dire des bêtises, ça fait moins "attaque" s'ils sont aussi auteurs...	
 
-Contre: on peut les avoir en reviewers... et ça fait une diversité de point de vues dans la littérature (genre moins crew)
+\emph{Contre}: on peut les avoir en reviewers... et ça fait une diversité de point de vues dans la littérature (genre moins crew)
 
-\section{TODO}
+\section{TO-DO}
 
 ...insérer un diagramme qui représente le processus de sequential testing et là où opère notre biais potentiel, si expé = analyste...
 
 ...insérer diagramme de nos prédictions...
 
-...finaliser la fonction blind (en cours)...
+%\href{https://github.com/lnalborczyk/Blind_BF}{github}
 
-%...(private) repo github synchronised with Overleaf: \href{https://github.com/lnalborczyk/Blind_BF}{github}
-
-\section{Latex examples}
-
-LaTeX automatically generates a bibliography in the APA style from your .bib file. The citep command generates a formatted citation in parentheses \citep{Lamport1986}. The cite command generates one without parentheses. LaTeX was first discovered by \cite{Lamport1986}.
+...\cite{kruschke_bayesian_2017}...
 
 % Commands to include a figure:
 %\begin{figure}
@@ -77,5 +86,5 @@ LaTeX automatically generates a bibliography in the APA style from your .bib fil
 %\caption{\label{fig:frog}This is a figure caption.}
 %\end{figure}
 
-\bibliography{example}
+\bibliography{Zotero}
 \end{document}
