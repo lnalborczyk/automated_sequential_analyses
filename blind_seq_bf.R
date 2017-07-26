@@ -1,5 +1,5 @@
 # get BayesFactorExtras from github
-devtools::install_github("richarddmorey/BayesFactorExtras", subdir = "BayesFactorExtras")
+# devtools::install_github("richarddmorey/BayesFactorExtras", subdir = "BayesFactorExtras")
 
 # if the "blind" argument is true, the function only returns a "continue or stop message"
 # thres is the threshold at which to stop
@@ -107,6 +107,26 @@ seqBF <- function(BFobject, min.n = 10, step = 1, var.id = NULL, verbose = TRUE,
     
     # add new sequential slot to results object
     RES@bayesFactorSeq <- resSeq
+    
+    ########################################################################
+    ##### short append to the original function
+    ###########################################################
+    
+    if(blind==TRUE){
+        
+        if(tail(RES@bayesFactorSeq$bf,1) < 1 / thres | tail(RES@bayesFactorSeq$bf,1) > thres){
+            
+            RES <- "stop the recruitment"
+            
+            } else {
+                
+                RES <- "continue the recruitment"
+            }
+    }
+    
+    #################################################################
+    #################################################################
+    
     return(RES)
 }
 
@@ -116,10 +136,16 @@ print.BFBayesFactorSeq <- function(x, ...) {
 }
 
 ################################################
-# Sequential t-test
-############################
+# Blind SBF example
+##################################
 library(BayesFactor)
 library(tidyverse)
-data(sleep)
-anova1 <- anovaBF(extra ~ group + ID, data = sleep, whichRandom = "ID", progress = FALSE) 
-seqBF(anova1, min.n = 5, thres = 10, blind = TRUE, verbose = TRUE)@bayesFactorSeq %>% class
+
+df <- 
+    cbind(x = rnorm(100, 100, 10), y = rnorm(100, 115, 10) ) %>%
+    data.frame %>%
+    gather %>%
+    mutate(key = ifelse(key == "x", -0.5, 0.5) )
+
+tBF <- ttestBF(formula = value ~ key, data = df[sample(nrow(df)),])
+seqBF(tBF, min.n = 10, verbose = FALSE, thres = 10, blind = TRUE)
