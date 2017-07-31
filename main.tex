@@ -8,90 +8,71 @@
 \usepackage{xcolor}
 \usepackage[draft,inline,nomargin,index]{fixme}
 \usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{nameref}
 
 \fxsetup{theme=color,mode=multiuser}
 \FXRegisterAuthor{ab}{sab}{\color{blue}Amelie} % abnote{} with text inside to edit
 \FXRegisterAuthor{bb}{sbb}{\color{purple}Brice} % bbnote{} with text inside to edit
 \FXRegisterAuthor{ln}{sln}{\color{violet}Lad} % lnnote{} with text inside to edit
 
-\title{Possible biasedness of the sequential testing procedure}
-%\title{Preventing a possible bias of the sequential testing procedure}
-%\title{Blinding as a remedy for demand biases during sequential testing}
+%\title{Preventing Possible Biasedness of the Sequential Bayes Factor Design}
+\title{Blinding as a Remedy Against Experimenter Biases During Sequential Bayes Factor, comment on "Sequential hypothesis testing with Bayes factors: Efficiently testing mean differences"}
+
 \shorttitle{Blind Bayes Factor}
 \threeauthors{Amélie G. Bret}{Brice Beffara}{Ladislas Nalborczyk}
 \threeaffiliations{Univ. Grenoble Alpes, CNRS, LPNC UMR 5105, F-38000, Grenoble \\Psychological Science Research Institute, Catholic University of Louvain, Belgium}{The Walden III Slowpen Science Laboratory, France}{Univ. Grenoble Alpes, CNRS, LPNC UMR 5105, F-38000, Grenoble \\ Department of Experimental Clinical and Health Psychology, Ghent University}
 
-\abstract{When collecting data, Bayesian hypothesis testing allows optional stopping with unlimited multiple testing. This procedure is called Sequential Bayes Factor (SBF). Bayes factors are computed until an a priori defined level of evidence is reached. This allows flexible sampling plans and is not dependent upon correct effect size guesses in an a priori power analysis. Testing mean differences between 2 groups, the SBF design typically needs 50\% to 70\% smaller samples to reach a conclusion about the presence of an effect, as compared with optimal NHST, while having the same or lower long-term rate of wrong inference...however... \todo[inline, color=red]{Le début de l'asbtract est extrait de pain joli et al. Il faudra le reformuler.}}
+%\abstract{When collecting data, Bayesian hypothesis testing allows optional stopping with unlimited multiple testing. This procedure is called Sequential Bayes Factor (SBF). Bayes factors are computed until an a priori defined level of evidence is reached. This allows flexible sampling plans and is not dependent upon correct effect size guesses in an a priori power analysis. Testing mean differences between 2 groups, the SBF design typically needs 50\% to 70\% smaller samples to reach a conclusion about the presence of an effect, as compared with optimal NHST, while having the same or lower long-term rate of wrong inference...however... \todo[inline, color=red]{Le début de l'asbtract est extrait de pain joli et al. Il faudra le reformuler.}}
 
 \begin{document}
+
+% defining a new command for counting words
+\newcommand{\quickwordcount}{%
+  \immediate\write18{texcount -1 -sum -merge \jobname.tex > \jobname-words.sum }%
+  \input{\jobname-words.sum}words%
+}
+
 \maketitle
 
-\section{Aspects pratiques}
+Wordcount: This document contains \textbf{\quickwordcount}.
+
+\newpage
+
+\tableofcontents % provisoire, juste pour se repérer entre nous
+\newpage
+
+\section*{Aspects pratiques}
 
 Original papers: \cite{schonbrodt_bayes_2017}, \& \cite{schonbrodt_sequential_2017}...
-
-\lnnote{IMO, un commentaire doit être court (i.e., < 2000-3000 mots), mais il faudrait peut-être qu'on trouve des guidelines précises ?}
 
 \lnnote{Où publier ? S'il s'agit d'un commentaire, il doit être publié dans la même revue que l'article original. Les deux papiers ci-dessus présentent la méthode SBF (à bien relire en détails), un dans Psych. Meth (2017) et l'autre dans PBR (in press). \newline PBR accepte les commentaires (cf. la page d'accueil du journal), mais je ne sais pas si Psychological Methods les accepte...}
 
 \bbnote{Exact mais Psych Meth accepte aussi des tuto donc on pourrait peut-être faire passer ça comme un tuto non ?}
 
-\lnnote{Ça me semble un peu léger pour un tuto... non ? On présenterait quoi ? Juste une fonction qui ajoute un argument "blind" aux fonctions existantes ? Ça ferait un bon article de blog mais je pense que c'est un peu léger pour un tuto...PS: je pense que Psych. Meth. accepte les comments, même s'ils ne le précisent, mais il faudrait juste s'en assurer... je peux m'occuper de vérifier ça}
+\lnnote{Ça me semble un peu léger pour un tuto... non ? On présenterait quoi ? Juste une fonction qui ajoute un argument "blind" aux fonctions existantes ? Ça ferait un bon article de blog mais je pense que c'est un peu léger pour un tuto...}
 
-\section{Proposition de plan}
-
-\renewcommand{\labelenumii}{\Roman{enumii}}
-\begin{enumerate}
-	\item{Introduction, état du problème}
-	\begin{enumerate}
-		\item{Présentation de la méthode SBF}
-\item SBF has been already very precisely described \cite{schonbrodt_sequential_2017,schonbrodt_bayes_2017}. Here we will only briefly remind the basics of SBF in order to summarize the essential aspects of it.
-		\item{Problèmes}
-			\begin{enumerate}
-            \item{Non-respect de l'hypothèse d'indépendance des observations}
-            \item{Biais de demande...}
-            \end{enumerate}
-            \end{enumerate}
-            \item{Solutions, comment régler le problème ?}
-            \begin{enumerate}
-            \item{Blinding: soit triple blind (expé != analyst), soit blinding via software, cf. point suivant}
-            \item{On peut proposer ici une solution pratique immédiate, genre une version modifiée de la fonction de félix qui ajouter un argument "blind" (voir supplementary materials)}
-            \end{enumerate}
-            \item{Evaluation du biais ?}
-            \begin{enumerate}
-            \item{Propositions de protocoles expérimentaux permettant de mettre en évidence le biais, et prédictions (cf Figure 2).}
-            \item{On pourrait profiter de ce papier pour lancer un appel à contribution à une grosse manip multi-lab all around the world, pour évaluer l'amplitude de ce biais, comme on avait commencé à discuter...non ?}
-
-\end{enumerate}
-\end{enumerate}
-
-\bbnote{super idée j'aime cet séquence évolutive vmvc}
-
-\section{Sondage et liste des arguments pour ou contre inclure Wagenmakers, Schönbrodt, Perugini et cie ?}
-
-\textbf{Pour}: ils sont forts, ils peuvent nous éviter de dire des bêtises, ça fait moins "attaque" s'ils sont aussi auteurs...
-
-\textbf{Contre}: on peut les avoir en reviewers... et ça fait une diversité de point de vues dans la littérature (genre moins crew)
-
-\section{TO-DO}
+\section*{TO-DO}
 
 \begin{itemize}
 
 \item{trouver un acronyme sexy pour décrire le biais, genre le "Sequential Experimenter-as-Analyst Bias" (SEAB).} \lnnote{DONE ?}
 
-\item{revue de littérature sur le biais de l'expérimentateur, travaux récents ? estimation de la taille d'effet ?}
-
-\item{insérer un diagramme qui représente le processus de sequential testing et là où opère notre biais potentiel...cf section "diagrammes"}\lnnote{DONE, cf. below}
-
-\item{insérer un diagramme de nos prédictions...cf section "diagrammes"}\lnnote{DONE, cf. below}
-
-\item{modifier la fonction seqBF de Richard Morey et Félix Schonbrodt afin d'ajouter un argument "blind"} \lnnote{DONE, cf. attached R script}
+\item{revue de littérature sur le biais de l'expérimentateur, travaux récents ? estimation de la taille d'effet ? \url{https://en.wikipedia.org/wiki/Observer-expectancy_effect}}
 
 \end{itemize}
 
-\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% début du comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-...what is a Bayes Factor (BF)...and how it avoids the pitfalls of sequential testing  in the Null Hypothesis Significance Testing (NHST) framework...
+\newpage
+
+\section{Introduction, the SBF design}
+
+\subsection{SBF}
+
+...as described in \cite{schonbrodt_bayes_2017}, \& \cite{schonbrodt_sequential_2017}..blah blah...what is a Bayes Factor (BF)...and how it avoids the pitfalls of sequential testing  in the Null Hypothesis Significance Testing (NHST) framework...
 
 \begin{equation}
 \underbrace{\dfrac{p(H_{0}|D)}{p(H_{1}|D)}}_{posterior\ odds} = \underbrace{\dfrac{p(D|H_{0})}{p(D|H_{1})}}_{bayes\ factor} \times \underbrace{\dfrac{p(H_{0})}{p(H_{1})}}_{prior\ odds}
@@ -107,11 +88,11 @@ p(D|H) = \int_{\theta} p(\theta|H) p(D|\theta,H) d\theta
 
 \vspace{5mm}
 
-...thus, the BF can be seen as an updating index, indicating the researcher how much prior probabilities should be revised (e.g.,\cite{kruschke_bayesian_2017-1})...blah blah...
+...thus, the BF can be seen as an updating index, indicating the researcher how much prior probabilities should be revised \cite[e.g.,][]{kruschke_bayesian_2017-1}...blah blah...
 
-\section{Diagrammes}
+\subsection{SBF problems, experimenter bias(es)}
 
-...see Figure \ref{fig:diag1} pour un exemple de ce à quoi je pensais en parlant des diagrammes... à améliorer bien entendu... Amélie ? :)...created with https://www.draw.io/ ...
+...présenter ici notre hypothèse......see Figure \ref{fig:diag1} pour un exemple de ce à quoi je pensais en parlant des diagrammes... à améliorer bien entendu... Amélie ? :)...created with https://www.draw.io/ ...
 
 \begin{figure}[H]
   \caption{Overview of the SBF procedure and illustration of possible biases when the experimenter and the data analyst are the same person.}
@@ -120,7 +101,33 @@ p(D|H) = \int_{\theta} p(\theta|H) p(D|\theta,H) d\theta
   \label{fig:diag1}
 \end{figure}
 
-...la Figure \ref{fig:pred} illustre nos prédictions pour différents scénarios (e.g., l'expé voit une évolution de BF conforme à ses attentes, non-conforme, etc.)...created with https://www.draw.io/ ...
+\subsubsection{Consequence 1: biased sampling, biased inference}
+
+...parler ici de la première conséquence, i.e., le fait que l'échantillonnage soit biaisé: on atteindra plus vite / lentement le seuil pré-défini...
+
+\subsubsection{Consequence 2: inadequacy of statistical tests, non-independance of errors...}
+
+...parler ici de la conséquence 2, i.e., le fait que le biais de l'expérimentateur introduit une dépendance (une corrélation) entre les observations, et donc rend caduque la plupart des tests statistiques...this kind of correlated data would be thus better modeled by a time series analysis...
+
+\subsection{Solutions ? Blind yourself.}
+
+...blinding (double or triple)...
+
+\subsubsection{Solution 1: one analyst, one experimenter}
+
+...blah blah...
+
+\subsubsection{Solution 2: one analyst-experimenter, "software-blinded"}
+
+...this solution is relatively costless. To demonstrate this, we added a very short append to the \texttt{seqBF} function, written by Félix Schönbrodt \& Richard Morey (available \href{https://raw.githubusercontent.com/richarddmorey/BayesFactorExtras/master/BayesFactorExtras/R/seqBF.R}{here}), so that the user can now simply set the \texttt{blind} argument to \texttt{TRUE} and thus be completely blind to the results of the sequential BF computations. The only output is a sentence that either indicates to "continue" or to "stop" the recruitment, considering the threshold pre-defined by the user (see \nameref{sec:supp} for code details).
+
+\section{What does look like SEAB ?}
+
+...the SEAB can wear several forms as we expect different kind of behaviors of the SBF design according to the researcher's "a priori" expectancies and the effect size. Moreover, we focus here on the simplest case in which the expectancies of the researcher are constant throughout the sequential testing. Although non realistic, this setting serves illustrative purposes in the next section.
+
+\subsection{Predictions}
+
+...présenter ici nos prédictions, i.e., ce qu'on s'attend à observer sur l'évolution du SBF dans deux cas (H0 et H1 taille d'effet moyenne, par exemple), selon un chercheur avec des a priori différents...la Figure \ref{fig:pred} illustre nos prédictions pour différents scénarios (e.g., l'expé voit une évolution de BF conforme à ses attentes, non-conforme, etc.)...created with https://www.draw.io/ ...
 
 \begin{figure}[H]
   \caption{Predicted consequences of the SEAB on the results of a SBF procedure, for a given Cohen's d of 0.6 (hereafter, "H1") or of 0 (hereafter "H0"), according to the \emph{a priori} researcher's beliefs.}
@@ -129,24 +136,24 @@ p(D|H) = \int_{\theta} p(\theta|H) p(D|\theta,H) d\theta
   \label{fig:pred}
 \end{figure}
 
-...peut-être ajouter un plot de l'évolution "normale" du BF pour cette taille d'effet (i.e., d = 0.6) ?...
+\lnnote{peut-être ajouter un plot de l'évolution "normale" du BF pour la même taille d'effet ?}
+
+\subsection{Experimental demonstration}
+
+...proposer ici un protocole expérimental qui permettrait de mettre en évidence le SEAB...
+
+\section{Conclusions}
 
 ...exemple de manip utilisant le SBF: \cite{martin_perceiving_2016}...
 
-\section{Supplementary materials}
+\section{Supplementary materials}\label{sec:supp}
 
 ...\url{https://github.com/lnalborczyk/Blind_BF}...le repo est privé pour le moment donc on ne peut pas y accéder avec ce lien, mais la fonction est dispo sur le repo Overleaf...
 
 \section{Acknowledgements}
 
-...
-
-% Commands to include a figure:
-%\begin{figure}
-%\centering
-%\includegraphics[width=0.5\textwidth]{frog.jpg}
-%\caption{\label{fig:frog}This is a figure caption.}
-%\end{figure}
+...many thanks to my mom...
 
 \bibliography{BBF}
+
 \end{document}
