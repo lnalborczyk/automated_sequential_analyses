@@ -10,25 +10,31 @@
 \usepackage{hyperref}
 \usepackage{verbatim}
 \usepackage{nameref}
+\usepackage{booktabs}
+\usepackage{lineno}
+\linenumbers
 
 \fxsetup{theme=color,mode=multiuser}
 \FXRegisterAuthor{ab}{sab}{\color{blue}Amelie} % abnote{} with text inside to edit
 \FXRegisterAuthor{bb}{sbb}{\color{purple}Brice} % bbnote{} with text inside to edit
 \FXRegisterAuthor{ln}{sln}{\color{violet}Lad} % lnnote{} with text inside to edit
 
-%\title{Blinding as a Necessary Precaution Against Experimenter Biases During Sequential Bayes Factor, comment on "Sequential hypothesis testing with Bayes factors: Efficiently testing mean differences"}
+%\title{Blinding as a Necessary Precaution Against Experimenter Biases During Sequential Bayes Factor: A commentary on \cite{schonbrodt_sequential_2017}}
+
+%\title{On the importance of blinding during sequential testing procedures: A commentary on \cite{schonbrodt_sequential_2017}}
 
 \title{"Efficient" yes, but only if you blind yourself: A commentary on \cite{schonbrodt_sequential_2017}}
-
-%\title{Preventing Possible Biasedness of the Sequential Bayes Factor Design, comment on "Sequential hypothesis testing with Bayes factors: Efficiently testing mean differences"}
 
 \shorttitle{Blind Bayes Factor}
 \threeauthors{Amélie G. Bret}{Brice Beffara}{Ladislas Nalborczyk}
 \threeaffiliations{Univ. Grenoble Alpes, CNRS, LPNC UMR 5105, F-38000, Grenoble \\Psychological Science Research Institute, Catholic University of Louvain, Belgium}{The Walden III Slowpen Science Laboratory, France}{Univ. Grenoble Alpes, CNRS, LPNC UMR 5105, F-38000, Grenoble \\ Department of Experimental Clinical and Health Psychology, Ghent University}
 
-%\abstract{When collecting data, Bayesian hypothesis testing allows optional stopping with unlimited multiple testing. This procedure is called Sequential Bayes Factor (SBF). Bayes factors are computed until an a priori defined level of evidence is reached. This allows flexible sampling plans and is not dependent upon correct effect size guesses in an a priori power analysis. Testing mean differences between 2 groups, the SBF design typically needs 50\% to 70\% smaller samples to reach a conclusion about the presence of an effect, as compared with optimal NHST, while having the same or lower long-term rate of wrong inference...however... \todo[inline, color=red]{Le début de l'asbtract est extrait de pain joli et al. Il faudra le reformuler.}}
+\abstract{In this commentary we discuss potential issues associated with the Sequential Bayes Factor procedure as introduced by \cite{schonbrodt_sequential_2017}. We argue that particular precautions should be undertaken to ensure objectivity during sequential testing procedures (both Bayesian and frequentist). More precisely, we highlight the need for triple-blinding during such procedures, and provide recommendations on how to implement this without additional costs.}
 
-\setcounter{secnumdepth}{3} % re-enabling section numbering (disabled by the apa6.csl)
+\keywords{sequential testing, triple-blind, research methods}
+
+% re-enabling section numbering (disabled by the apa6.csl)
+% \setcounter{secnumdepth}{3}
 
 \begin{document}
 
@@ -47,19 +53,8 @@ Wordcount: This document contains \textbf{\quickwordcount}.
 \tableofcontents % provisoire, juste pour se repérer entre nous
 \newpage
 
-\section*{TO-DO}
-
-Original papers: \cite{schonbrodt_bayes_2017}, \& \cite{schonbrodt_sequential_2017}...
-
-\begin{itemize}
-
-\item{trouver un acronyme sexy pour décrire le biais, genre le "Sequential Experimenter-Analyst Bias" (SEAB).}
-
-\item{revue de littérature sur le biais de l'expérimentateur, travaux récents ? estimation de la taille d'effet ? \url{https://en.wikipedia.org/wiki/Observer-expectancy_effect}}
-
-\item{répartition des tâches: Lad intro, Brice experimenter biases, Amélie blinding, et tout le monde section 3 et conclusion}
-
-\end{itemize}
+% Notes
+% répartition des tâches: Lad intro, Brice experimenter biases, Amélie blinding, et tout le monde section 3 et conclusion
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % début du comment
@@ -71,37 +66,57 @@ Original papers: \cite{schonbrodt_bayes_2017}, \& \cite{schonbrodt_sequential_20
 
 \subsection{Context}
 
-Edwards, Lindman, \& Savage (1963) state, "the rules governing when data collection stops are irrelevant to data interpretation. It is entirely appropriate to collect data until a point has been proven or disproven, or until the data collector runs out of time, money, or patience". However, as noted by \cite{schonbrodt_sequential_2017}, "this practice of unplanned multiple testing is not allowed in the classical NHST paradigm, because it increases Type I error rates (Armitage, McPherson, \& Rowe, 1969). \textit{Of course, one can calculate statistics during data collection, but the results of these tests must not have any influence on optionally stopping data collection}."
+\cite{edwards_ward_bayesian_1963} state, "the rules governing when data collection stops are irrelevant to data interpretation. It is entirely appropriate to collect data until a point has been proven or disproven, or until the data collector runs out of time, money, or patience". However, as noted by \cite{schonbrodt_sequential_2017}, "this practice of unplanned multiple testing is not allowed in the classical NHST paradigm, because it increases Type I error rates". They add: "\textit{Of course, one can calculate statistics during data collection, but the results of these tests must not have any influence on optionally stopping data collection}."
 
-In this short commentary, we will argue that such interim analysis (including visual inspections of the data) might have an influence on future data collection through overlooked experimenter biases, thus invalidating the sequential testing procedures (both Bayesian and frequentist). Because we acknowledge and appreciate the huge contribution brought by the original paper of \cite{schonbrodt_sequential_2017}, in the second part of this commentary we consider quick fixes / methodological precautions that will ensure the efficiency of the SBF procedure.
+In this short commentary, we will argue that such interim analysis (including visual inspections of the data) might have an influence on future data collection and optional stopping through overlooked experimenter biases, thus biasing the expected results of sequential testing procedures (both Bayesian and frequentist). Because we acknowledge and appreciate the huge contribution brought by the seminal work of \cite{schonbrodt_sequential_2017}, in the second part of this commentary we will highlight quick fixes / methodological precautions that will ensure the efficiency of the SBF procedure.
 
-\subsection{the SBF design}
+\subsection{The SBF design}
 
-...rosenthal 1963, 1966... as remarked by Wicherts et al. 2015..."It is surprising that blinding to conditions and hypotheses of experimenters, coders, and observers is considered to be crucial during data collection, while in practice, the analyses are typically conducted by a person who is not only aware of the hypotheses, but also benefits directly from corroborating them (commonly by means of a significance test). Together with the many researcher DFs during the analyses, these factors do not entail the most optimal mix for objective and unbiased results.". Moreover, failures to blindings (single, double or triple blind) are three of the QRPs listed by wickerts et al...
+In their paper, \cite{schonbrodt_sequential_2017} present an alternative to the much used NHST with a priori power analysis (NHST-PA). They introduce the \textit{Sequential Bayes Factor} (SBF) procedure that allows to collect data iteratively, until a predefined threshold is reached, while not suffering from the pitfalls associated with similar procedures used in the NHST framework. Testing mean differences between two independent groups, they show that the SBF design typically needs 50\% to 70\% smaller samples to reach a conclusion about the presence of an effect, as compared with optimal NHST-PA (where \textit{optimal} stands for an idealized situation in which the a priori targeted effect would be exactly equal to the \textit{true} effect size), while having similar long-term error rates.
 
-\section{SBF problems}
+% With this in mind, it is striking to see that though double blinding procedures have became a gold standard in many psychological fields, much less attention has been dedicated to triple blinding (i.e., procedures ensuring that the person who analyses the data is blinded to hypotheses).
 
-...présenter ici le problème, i.e., le fait que l'échantillonnage soit biaisé: on atteindra plus vite / plus lentement le seuil pré-défini...see Figure \ref{fig:diag1} pour un exemple de ce à quoi je pensais en parlant des diagrammes...created with https://www.draw.io/ ...
+However, while it seems an attractive perspective and while we generally agree with most of their recommendations, we wanted to raise some concerns about precautions that need to be undertaken in order to preserve the long-terms rates of wrong inferences they provide. One major concern is that the person who runs the experiment and the person who analyses the data are usually the same person. As noted by \cite{wicherts_degrees_2016}, in the psychological field, "the analyses are typically conducted by a person who is not only aware of the hypotheses, but also benefits directly from corroborating them". Thus, failures of blinding procedures are listed among the 34 researchers degrees of freedom identified by \cite{wicherts_degrees_2016}. In the current commentary we want to highlight the particular dramatic consequences of blinding failures in the context of sequential testing.
 
-...direct consequence of the SEAB is that it introduces a time dependency between participants...this kind of auto-correlated data would be thus better modeled by time-series analyses...
+\section{SBF procedure: A social situation}
+
+...a psychological experiment is a social situation / process...\cite{rosenthal_social_1963,rosenthal_experimenter_1964}...échantillonnage biaisé: on atteindra plus vite / plus lentement le seuil pré-défini...see Figure \ref{fig:diag1}...created with https://www.draw.io/ ...
 
 \begin{figure}[H]
-  \caption{Overview of the SBF procedure and illustration of possible biases when the experimenter and the data analyst are the same person.}
+  \caption{Overview of the SBF procedure and illustration of potential biases when the experimenter and the data analyst are the same person.}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/bias_diag.pdf}
   \label{fig:diag1}
 \end{figure}
 
-\section{What does look like SEAB ?}
+...Sequential-Experimenter-Analyst-Bias (SEAB)...direct consequence of the SEAB is that it introduces a time dependency between participants...this kind of auto-correlated data would invalidate the use of the models compared by...in their original paper...
 
-...the SEAB can wear several forms as we expect different kind of behaviors of the SBF design according to the researcher's "a priori" expectancies and the effect size. Moreover, we focus here on the simplest case in which the expectancies of the researcher are constant throughout the sequential testing. Although non realistic, this setting serves illustrative purposes in the next section.
+\section{What does look like the SEAB ?}
+
+The SEAB can wear a multitude of forms as it is a function of the researcher \textit{a-priori} expectancies and of the \textit{true} effect size. Moreover, we focus here on the simplest case in which the expectancies of the researcher remain constant throughout the sequential testing procedure. Although maybe non realistic, this setting serves illustrative purposes in the next section.
 
 \subsection{Predictions}
 
-...présenter ici nos prédictions, i.e., ce qu'on s'attend à observer sur l'évolution du SBF dans deux cas (H0 et H1 taille d'effet moyenne, par exemple), selon un chercheur avec des a priori différents...la Figure \ref{fig:pred} illustre nos prédictions pour différents scénarios (e.g., l'expé voit une évolution de BF conforme à ses attentes, non-conforme, etc.)...created with https://www.draw.io/ ...
+Below we describe four situations that are faced everyday... \lnnote{created with https://www.tablesgenerator.com...}
+
+\begin{table}[H]
+\centering
+\caption{Four usual situations in the experimental setting}
+\label{tab:pred}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}ccc@{}}
+\toprule
+ & \begin{tabular}[c]{@{}c@{}}There is no difference in the population\\ (H0, d = 0)\end{tabular} & \begin{tabular}[c]{@{}c@{}}There is a difference in the population\\ (H1, e.g., d = 0.6)\end{tabular} \\ \midrule
+Researcher 1, believes in H0 & Panel A (congruent) & Panel B (incongruent) \\
+Researcher 2, believes in H1 & Panel C (incongruent) & Panel D (congruent) \\ \bottomrule
+\end{tabular}%
+}
+\end{table}
+
+...Figure \ref{fig:pred} illustrates our predictions for the 4 scenarios presented in Table \ref{tab:pred}...created with https://www.draw.io ...
 
 \begin{figure}[H]
-  \caption{Predicted consequences of the SEAB on the results of a SBF procedure, for a given Cohen's d of 0.6 (hereafter, "H1") or of 0 (hereafter "H0"), according to the \emph{a priori} researcher's beliefs.}
+  \caption{Predicted consequences of the SEAB on the results of a SBF procedure, for a given Cohen's d of 0.6 (hereafter, "H1") or of 0 (hereafter "H0"), according to the \emph{a priori} researcher beliefs.}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/BFF_predictions.pdf}
   \label{fig:pred}
@@ -111,7 +126,7 @@ In this short commentary, we will argue that such interim analysis (including vi
 
 \subsection{Experimental demonstration}
 
-...proposer ici un protocole expérimental qui permettrait de mettre en évidence le SEAB...
+...proposer ici un protocole expérimental qui permettrait de mettre en évidence le SEAB... ou pas ?
 
 \section{Solutions ? Blind yourself.}
 
@@ -127,13 +142,13 @@ In this short commentary, we will argue that such interim analysis (including vi
 
 \section{Conclusions}
 
-...OF COURSE, SEAB can not arise in a context in which double-bliding is efficiently performed...
-
-...exemple de manips utilisant le SBF: \cite{martin_perceiving_2016}...or Matzke, D., Nieuwenhuis, S., van Rijn, H., Slagter, H. A., van der Molen, M. W., \& Wagenmakers, E.-J. (2015). The effect of horizontal eye movements on free recall: A preregistered adversarial collaboration. Journal of Experimental Psychology General, 144, e1–15. http://dx.doi .org/10.1037/xge0000038
+...exemple de manip utilisant le SBF: \cite{martin_perceiving_2016}...
 
 \section{Supplementary materials}\label{sec:supp}
 
-...\url{https://github.com/lnalborczyk/Blind_BF}...le repo est privé pour le moment donc on ne peut pas y accéder avec ce lien, mais la fonction est dispo sur le repo Overleaf...
+Reproducible code and figures can be found on Github: \url{https://github.com/lnalborczyk/Blind_BF}.
+
+\lnnote{le repo est privé pour le moment donc on ne peut pas y accéder avec ce lien, mais la fonction est dispo sur le repo Overleaf.}
 
 \section{Acknowledgements}
 
