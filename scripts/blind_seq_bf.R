@@ -38,7 +38,8 @@ seqBF <- function(BFobject, min.n = 10, step = 1, var.id = NULL, verbose = TRUE,
                     if (verbose==TRUE) print("No grouping factor detected.")
                 } else {
                     # repeated measurement
-                    # TODO: This works if only one random factor is given (e.g., subject ID in a repeated measurement). Generalize to multiple random factors
+                    # TODO: This works if only one random factor is given (e.g., subject ID in a repeated measurement).
+                    # Generalize to multiple random factors
                     var.id <- all.vars(as.formula(BFobject@denominator@identifier$formula))[2]
                     count = dat %>% group_by_(var.id) %>% summarise(n=n())
                     max.n = nrow(count)
@@ -112,9 +113,9 @@ seqBF <- function(BFobject, min.n = 10, step = 1, var.id = NULL, verbose = TRUE,
     ##### short append to the original function
     ###########################################################
     
-    if(blind==TRUE){
+    if (blind == TRUE) {
         
-        if(tail(RES@bayesFactorSeq$bf,1) < 1 / thres | tail(RES@bayesFactorSeq$bf,1) > thres){
+        if(tail(RES@bayesFactorSeq$bf, 1) < 1 / thres | tail(RES@bayesFactorSeq$bf, 1) > thres) {
             
             RES <- "stop the recruitment"
             
@@ -147,5 +148,5 @@ df <-
     gather %>%
     mutate(key = ifelse(key == "x", -0.5, 0.5) )
 
-tBF <- ttestBF(formula = value ~ key, data = df[sample(nrow(df)),])
+tBF <- ttestBF(formula = value ~ key, data = df[sample(nrow(df) ), ])
 seqBF(tBF, min.n = 10, verbose = FALSE, thres = 10, blind = TRUE)
