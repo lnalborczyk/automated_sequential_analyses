@@ -3,8 +3,6 @@ if(!require(tidyverse)){install.packages("tidyverse")}
 library(BayesFactor)
 library(tidyverse)
 
-rm(list = ls() ) # cleaning working environment
-
 seqBF <- function(cohensd = 0.5, rscale = "medium", nsims = 20, boundary = 10, nmin = 20, nmax = 100) {
     
     options(scipen = 999) # disable scientific notation for numbers
@@ -33,7 +31,9 @@ seqBF <- function(cohensd = 0.5, rscale = "medium", nsims = 20, boundary = 10, n
 
             # computing the BF
             logBF <-
-                BayesFactor::ttestBF(samp[, 1], samp[, 2], rscale = rscale) %>% as.vector %>% as.numeric
+                BayesFactor::ttestBF(samp[, 1], samp[, 2], rscale = rscale) %>%
+                as.vector %>%
+                as.numeric
             
             res0[which(ns == n), ] <-
                 c(
