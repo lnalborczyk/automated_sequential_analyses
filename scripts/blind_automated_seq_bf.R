@@ -1,7 +1,13 @@
-###################################################################################
+##############################################################################
+# R code to reproduce Bret, Beffara & Nalborczyk (2018)
+# OSF projet: https://osf.io/mwtvk/
+# Written by Ladislas Nalborczyk
+# E-mail: ladislas.nalborczyk@gmail.com
+# Last update: February 8, 2018
+#############################################################
+
 # Reanalysig data from a replication of Schnall, Benton, & Harvey (2008, PS)
 # OSF link: https://osf.io/apidb/
-###########################################################
 
 # Importing SAV file
 # d <- foreign::read.spss(file = "rep2.sav", to.data.frame = TRUE)
@@ -57,14 +63,16 @@ tBF <- ttestBF(formula = mean_vignettes ~ Condition, data = data)
 # Writing a basic SBF function
 ########################################################################
 
-# If the "cleaning" argument is true, proceed to outliers rejections and errors removal
+# If the "cleaning" argument is set to "full", proceed to sequential outliers rejections and errors removal
+# If the "cleaning" argument is set to "errors", proceed to errors removal only
+
 # Here (as an example), we remove participants that are outliers on at least one of the
 # measures returned by influence.measures()
 
 # If the "blind" argument is true, the function only returns a "continue or stop message"
 # depending on the a priori defined thresold
 
-seqBF <- function(BFobject, cleaning = TRUE, nmin = 20, step = 1, thresold = 10, blind = TRUE) {
+seqBF <- function(BFobject, cleaning = NULL, nmin = 20, step = 1, threshold = 10, blind = TRUE) {
     
     dat <- BFobject@data
     
@@ -88,7 +96,7 @@ seqBF <- function(BFobject, cleaning = TRUE, nmin = 20, step = 1, thresold = 10,
         BFobject@data <- dat2
         
         # if we want to go for iterative cleaning
-        if (cleaning) {
+        if (cleaning == "full") {
             
             # removing wrong trials and errors
             dat2 <- dat2 %>% filter(Madeup_dummy != 1, Exp_Error != 1)
@@ -107,6 +115,11 @@ seqBF <- function(BFobject, cleaning = TRUE, nmin = 20, step = 1, thresold = 10,
             # removing influential observations and storing clean dataset
             BFobject@data <- dat2[inf_obs, ]
         
+        } else if (cleaning == "errors") {
+            
+            # removing wrong trials and errors
+            BFobject@data <- dat2 %>% filter(Madeup_dummy != 1, Exp_Error != 1)
+            
         }
         
         #########################################################################
@@ -120,7 +133,7 @@ seqBF <- function(BFobject, cleaning = TRUE, nmin = 20, step = 1, thresold = 10,
         
         if (blind == TRUE) {
             
-            if (tail(res, 1) < 1 / thres | tail(res, 1) > thres) {
+            if (tail(res, 1) < 1 / threshold | tail(res, 1) > threshold) {
                 
                 res <- "stop the recruitment"
                 
@@ -137,14 +150,31 @@ seqBF <- function(BFobject, cleaning = TRUE, nmin = 20, step = 1, thresold = 10,
 }
 
 ################################################
+# Automated SBF example
+##################################
+
+# with iterative cleaning (removing errors + outliers)
+seq <- seqBF(tBF, cleaning = "full", nmin = 20, threshold = 6, blind = FALSE)
+ts.plot(seq, xlab = "sample size", ylab = expression(BF[10]), col = "orangered", lwd = 1.5)
+abline(h = 1 / 6, lty = 3)
+
+# with iterative cleaning (only removing errors)
+seq2 <- seqBF(tBF, cleaning = "errors", nmin = 20, threshold = 6, blind = FALSE)
+lines(seq2, col = "steelblue", lwd = 1.5)
+
+# without iterative cleaning
+seq3 <- seqBF(tBF, cleaning = FALSE, nmin = 20, threshold = 6, blind = FALSE)
+lines(seq3, col = "darkgreen", lwd = 1.5)
+
+# add a legend
+legend(
+    x = 130, y = 0.9,
+    legend = c("SBF", "SBF_errors", "SBF_full"),
+    col = c("darkgreen", "steelblue", "orangered"),
+    lty = 1, lwd = 1.5)
+
+################################################
 # Blind SBF example
 ##################################
 
-# with iterative cleaning
-seq <- seqBF(tBF, cleaning = TRUE, nmin = 20, thres = 6, blind = FALSE)
-ts.plot(seq, xlab = "sample size", ylab = expression(BF[10]), col = "orangered")
-abline(h = 1 / 6, lty = 3)
-
-# without iterative cleaning
-seq2 <- seqBF(tBF, cleaning = FALSE, nmin = 20, thres = 6, blind = FALSE)
-lines(seq2, col = "steelblue")
+seqBF(tBF, cleaning = FALSE, nmin = 20, threshold = 6, blind = TRUE)
