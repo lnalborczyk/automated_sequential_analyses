@@ -1,9 +1,9 @@
 ##############################################################################
-# R code to reproduce Bret, Beffara & Nalborczyk (2018)
+# R code accompanying Bret, Beffara & Nalborczyk (2018)
 # OSF projet: https://osf.io/mwtvk/
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last update: February 8, 2018
+# Last update: February 13, 2018
 #############################################################
 
 # Reanalysig data from a replication of Schnall, Benton, & Harvey (2008, PS)
@@ -29,17 +29,17 @@ data <-
     rename(Participant = Participant.)
 
 #######################################################################################
-# Codes: https://osf.io/5qhnw/
+# Codes used by the original authors: https://osf.io/5qhnw/
 # Madeup_dummy: “All of my answers are made up.”(1 = yes, 0 = no)
 # Exp_Error: Participants for whom errors occurred (filtered out of all analyses)
 ####################################################################################
 
 # At each step, we should exclude participants who made up answers,
 # or wrong trials due to experimenter errors
+# i.e., filter(Madeup_dummy != 1, Exp_Error != 1)
 
 data <- 
     data %>%
-    # filter(Madeup_dummy != 1, Exp_Error != 1) %>%
     mutate(Condition = factor(Condition) ) %>%
     # ordering dataset by participant
     arrange(Participant)
@@ -63,14 +63,15 @@ tBF <- ttestBF(formula = mean_vignettes ~ Condition, data = data)
 # Writing a basic SBF function
 ########################################################################
 
-# If the "cleaning" argument is set to "full", proceed to sequential outliers rejections and errors removal
+# If the "cleaning" argument is set to "full", proceed to sequential outliers
+# rejections and errors removal
 # If the "cleaning" argument is set to "errors", proceed to errors removal only
 
 # Here (as an example), we remove participants that are outliers on at least one of the
 # measures returned by influence.measures()
 
-# If the "blind" argument is true, the function only returns a "continue or stop message"
-# depending on the a priori defined thresold
+# If the "blind" argument is true, the function only returns a "continue" or "stop" message,
+# depending on the a priori defined threshold
 
 seqBF <- function(BFobject, cleaning = NULL, nmin = 20, step = 1, threshold = 10, blind = TRUE) {
     
@@ -114,8 +115,8 @@ seqBF <- function(BFobject, cleaning = NULL, nmin = 20, step = 1, threshold = 10
             
             # removing influential observations and storing clean dataset
             BFobject@data <- dat2[inf_obs, ]
-        
-        } else if (cleaning == "errors") {
+            
+            } else if (cleaning == "errors") {
             
             # removing wrong trials and errors
             BFobject@data <- dat2 %>% filter(Madeup_dummy != 1, Exp_Error != 1)
@@ -155,22 +156,24 @@ seqBF <- function(BFobject, cleaning = NULL, nmin = 20, step = 1, threshold = 10
 
 # with iterative cleaning (removing errors + outliers)
 seq <- seqBF(tBF, cleaning = "full", nmin = 20, threshold = 6, blind = FALSE)
-ts.plot(seq, xlab = "sample size", ylab = expression(BF[10]), col = "orangered", lwd = 1.5)
-abline(h = 1 / 6, lty = 3)
 
 # with iterative cleaning (only removing errors)
 seq2 <- seqBF(tBF, cleaning = "errors", nmin = 20, threshold = 6, blind = FALSE)
-lines(seq2, col = "steelblue", lwd = 1.5)
 
 # without iterative cleaning
 seq3 <- seqBF(tBF, cleaning = FALSE, nmin = 20, threshold = 6, blind = FALSE)
+
+# plotting it
+ts.plot(seq, xlab = "sample size", ylab = expression(BF[10]), col = "darkred", lwd = 1.5)
+abline(h = 1 / 6, lty = 3)
+lines(seq2, col = "darkblue", lwd = 1.5)
 lines(seq3, col = "darkgreen", lwd = 1.5)
 
-# add a legend
+# adding a legend
 legend(
-    x = 130, y = 0.9,
+    x = 100, y = 0.9,
     legend = c("SBF", "SBF_errors", "SBF_full"),
-    col = c("darkgreen", "steelblue", "orangered"),
+    col = c("darkgreen", "darkblue", "darkred"),
     lty = 1, lwd = 1.5)
 
 ################################################
