@@ -7,7 +7,7 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{xcolor}
 \usepackage[draft,inline,nomargin,index]{fixme}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref} % nique
 \usepackage{verbatim}
 \usepackage{nameref}
 \usepackage{booktabs}
@@ -15,6 +15,7 @@
 \usepackage{amsfonts}
 \usepackage{booktabs}
 \usepackage{siunitx}
+\newcommand*{\doi}[1]{\href{http://dx.doi.org/#1}{ #1}}
 \linenumbers
 
 \fxsetup{theme=color,mode=multiuser}
@@ -37,10 +38,9 @@
 
 \shorttitle{Blind Bayes Factor}
 \threeauthors{Amélie Bret}{Brice Beffara}{Ladislas Nalborczyk}
-\threeaffiliations{Univ. Grenoble Alpes, CNRS, LPNC, 38000 Grenoble, France \\ Psychological Science Research Institute, Catholic University of Louvain, Belgium \\ The Walden III Slowpen Science Laboratory, France}{The Walden III Slowpen Science Laboratory, Villeurbanne, France \\ 
-Univ Lyon, ENTPE, LGCB, F-69518 Vaulx-en-Velin, France}{Univ. Grenoble Alpes, CNRS, LPNC, 38000 Grenoble, France \\ Department of Experimental Clinical and Health Psychology, Ghent University}
+\threeaffiliations{Univ. Grenoble Alpes, CNRS, LPNC, 38000 Grenoble, France \\ Psychological Science Research Institute, Catholic University of Louvain, Belgium \\ The Walden III Slowpen Science Laboratory, France}{The Walden III Slowpen Science Laboratory, Villeurbanne, France}{Univ. Grenoble Alpes, CNRS, LPNC, 38000 Grenoble, France \\ Department of Experimental Clinical and Health Psychology, Ghent University}
 
-\abstract{We discuss the use of the Sequential Bayes Factor (SBF) procedure as introduced by \cite{schonbrodt_sequential_2017} when confronted to real world data. Contrary to simulated data, real world data can be complicated to handle. Several choices have to be made before fitting a model to ensure that subsequent model comparison is sensible. The SBF procedure is expected to inform us about the adequate sample size to reach a conclusion, based on accumulating data. Accordingly, we suggest that one should also prepare data in a sequential way before actually computing a Bayes Factor. \lnnote{In other words, a good model set is a prerequisite for sensible model comparison.} We propose a full automation procedure, in line with the preregistration philosophy, allowing triple-blinding of analyses. We provide recommendations on how to implement this without additional costs, while taking into account the specificity of the sequential testing situation.}
+\abstract{We discuss the use of the Sequential Bayes Factor (SBF) procedure as introduced by \cite{schonbrodt_sequential_2017} when confronted to real world data. Contrary to simulated data, real world data can be complicated to handle. Several choices have to be made before fitting a model to ensure that subsequent model comparison is sensible. The SBF procedure is expected to inform us about the adequate sample size to reach a conclusion, based on accumulating data. Accordingly, we suggest that one should also prepare data in a sequential way before actually computing a Bayes Factor. We propose a full automation procedure, in line with the preregistration philosophy, allowing triple-blinding of analyses. We provide recommendations on how to implement this without additional costs, while taking into account the specificity of the sequential testing situation.}
 
 \keywords{Sequential Bayes Factor, sequential testing, automation, preregistration, blind analyses}
 
@@ -89,13 +89,13 @@ The SBF procedure has been validated based on simulated data \citep{schonbrodt_s
 
 When carefully decided, we propose that all these treatments should be automated and performed at each step of the sequential testing procedure. This way, data preparation and verification such as (for instance) outliers' detection, data transformation or checking model assumptions, would be done in an incremental manner, with the entire dataset always reconsidered - including former outliers -, so that this process would follow the progressive incorporation of new observations (i.e., such a procedure should be able to take into account that an extreme observation at time \textit{t} might not be extreme anymore at time \textit{t+n}). The fact that this iterative procedure is automated should prevent the data analyst from classical traps during data manipulation. Theses traps could have much more important consequences in SBF in comparison to traditional procedures due to the incremental nature of evidence accumulation. Besides, this idea fits well with the open science philosophy and with preregistration practices. Indeed, we propose that these steps would be programmed and coded on the basis of preregistered choices, before starting to collect data. Preregistered automated data analysis would therefore ensure the error rates of empirical SBF procedures to be similar to the long-term error rates provided by \cite{schonbrodt_sequential_2017} using simulation, and explicitly fulfill the requirements of transparent and reproducible science. \par
 
-With full automation of data preparation during the SBF procedure, we aim to bring it closer to the recommendations of \cite{schonbrodt_sequential_2017}, by reducing possible intermediate influences that could be encountered both at the data collection and data analysis levels. Besides these considerations about data analysis, we can anticipate some basic mechanisms of intermediate influence on data collection, avoidable with full automated SBF.
+Applying full automation of data preparation during the SBF procedure, we aim to bring it closer to the recommendations of \cite{schonbrodt_sequential_2017}, by reducing possible intermediate influences that could be encountered both at the data collection and data analysis levels. Besides these considerations about data analysis, we can anticipate some basic mechanisms of intermediate influence on data collection, avoidable with full automated SBF.
 
 \section{Interpersonal biases in SBF procedure}
 
 When an experimenter has expectations about what should be observed, data collection is likely to be biased by these expectations \citep{orne_social_1962,rosenthal_social_1963,rosenthal_experimenter_1964,rosenthal_interpersonal_1978,zoble_interaction_1969,klein_low_2012,gilder_role_2018}.
 
-Double (participant and experimenter) blind designs are expected to minimize expectancy effects \citep{klein_low_2012,gilder_role_2018}. However, when the experimenter cannot be blind, expectancy effects are clearly expected. If "experimenter bias is important to consider when
+Double (participant and experimenter) blind designs are expected to minimise expectancy effects \citep{klein_low_2012,gilder_role_2018}. However, when the experimenter cannot be blind, expectancy effects are clearly expected. If "experimenter bias is important to consider when
 performing a study under normal circumstances", it "becomes even more important to consider
 when the experimenter has performed an interim analysis" \cite{lakens_performing_2014}. \par
 
@@ -146,18 +146,18 @@ Researcher 2, believes in H1 & H1- (incongruent) & H1+ (congruent) \\ \bottomrul
 }
 \end{table}
 
-Again, evidence is insufficient to conclude that analyst and observer expectancy effects are absolutely necessary to take into account. If the cost of reducing the bias was high, we could be skeptical about considering it, knowing its uncertain benefits. However, as we will suggest in the next sections, very easy to implement and costless methods can be applied to overcome these biases. Hence, even with low certainty about the risks, it is worthwhile to limit it all the same.
+Again, evidence is insufficient to conclude how important analyst and observer expectancy effects are to be taken into account. If the cost of reducing the bias was high, we could be skeptical about considering it, knowing its uncertain benefits. However, as we will suggest in the next sections, very easy to implement and costless methods can be applied to overcome these biases. Hence, even with low certainty about the risks, it is worthwhile to limit it all the same.
 
 These biases can wear a multitude of forms as it is a function of the researcher \textit{a-priori} expectancies and of the population effect size. Moreover, we focus here on the simplest case in which the expectancies of the researcher remain constant throughout the sequential testing procedure. Although probably non realistic, this setting serves illustrative purposes. Figure \ref{fig:pred} illustrates our predictions concerning the biased evolution of Bayes Factor during sequential testing, according to the four situations presented in Table \ref{tab:pred}. The main message is that congruent situations (i.e., H0+ and H1+) would make the predefined boundary faster to reach (i.e., the sample size at which the boundary is hit would be lower than usually) and would lower error rates, while incongruent situations (i.e., H0- and H1-) would slow down this process and increase error rates.
 
 \begin{figure}[H]
-  \caption{Predicted consequences on the result of a SBF procedure with a fixed boundary of BF10 = 6 (or BF10 = 1/6), for a given Cohen's d of 0.5 (hereafter, "H1") or of 0 (hereafter "H0"), and according to the \emph{a priori} researcher expectancies.}
+  \caption{Predicted consequences on the result of a SBF procedure with a fixed boundary of $BF_{10} = 6$ (or $BF_{10} = 1/6$), for a given Cohen's d of 0.5 (hereafter, "H1") or of 0 (hereafter "H0"), and according to the \emph{a priori} researcher expectancies.}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/BFF_predictions.pdf}
   \label{fig:pred}
 \end{figure}
 
-Having presented the mechanisms through which we expect the knowledge of previous data to influence the data collection process, and illustrated the predicted consequences of these biases on the evolution of sequentially computed Bayes Factors, we focus on the next section on how to prevent this to happen. We suggest two ways of implementing triple blinding as a precaution against experimenter biases during sequential testing, and present a proof of concept of an automated procedure that would ensure objectivity.
+Having presented the mechanisms through which we expect the knowledge of previous data to influence the data collection process, and illustrated the predicted consequences of these biases on the evolution of sequentially computed Bayes Factors, we focus on the next section on how to prevent this to happen. We suggest two ways of implementing analysis blinding as a precaution against experimenter biases during sequential testing, and present a proof of concept of an automated procedure that would ensure objectivity.
 
 \section{Strengths and weaknesses of automation as compared to classical blinding}
 
@@ -165,15 +165,13 @@ Having presented the mechanisms through which we expect the knowledge of previou
 
 %Hence, we suggest doing triple blinding is which participants, experimenter and data analyst are not aware of the experimental informations (conditions, hypothesis...)
 
-Double (participant and experimenter) blinding advantages are now well documented \citep{schulz_blinding_2002}. If this procedure can minimise the problem of experimenter effect (in the SBF procedure), it is not always practicable. Although experimenter blinding procedures have became a gold standard in many psychological fields, much less attention has been dedicated to analysis blinding. In the SBF procedure analysis blinding can take two different meanings. First, double-blind can refer to a procedure ensuring that the person who analyses the data is blind to hypotheses (minimising intra-personal biases). Second, double-blind can refer to a procedure ensuring that the experimenter is blinded to data analysis (minimising interpersonal biases). Analysis blinding has first been applied with great success in clinical trials, where \textit{triple} refers to the fact that the committee who assess the results of a trial is blind to the hypothesis. Applied to data analysis, triple blinding refers to a situation in which data analysis is performed by an individual who is not aware of the hypotheses and thus, who has not particular interest in corroborating or disproving it \citep{miller_blind_2011}. This practice, while not largely spread in psychology, would be a remedy for many of the biases identified in \cite{wicherts_degrees_2016}. However, this solution might be difficult to apply, mostly because of materials and time constrains.
+Double (participant and experimenter) blinding advantages are now well documented \citep{schulz_blinding_2002}. If this procedure can minimise the problem of experimenter effect (in the SBF procedure), it is not always practicable. Although experimenter blinding procedures have became a gold standard in many psychological fields, much less attention has been dedicated to analysis blinding. In the SBF procedure analysis blinding can take two different meanings. First, double-blind can refer to a procedure ensuring that the person who analyses the data is blind to hypotheses (minimising intra-personal biases). Second (and specific to sequential testing procedures), double-blind can refer to a procedure ensuring that the experimenter is blinded to data analysis (minimising interpersonal biases). Analysis blinding has first been applied with great success in clinical trials, where \textit{triple} refers to the fact that the committee who assess the results of a trial is blind to the hypothesis. Applied to data analysis, triple blinding refers to a situation in which data analysis is performed by an individual who is not aware of the hypotheses and thus, who has not particular interest in corroborating or disproving it \citep{miller_blind_2011}. This practice, while not largely spread in psychology, would be a remedy for many of the biases identified in \cite{wicherts_degrees_2016}. However, this solution might be difficult to apply, mostly because of materials and time constrains.
 
 \subsection{Solution 2: one analyst-experimenter, "software-blinded"}
 
 Another solution is to automate analysis blinding, so that the data analyst and the experimenter (who can be the same person) are blind to Bayes Factors computed on previous sets of observations. To illustrate this idea, we wrote a short function allowing to run a SBF for two-independent groups comparisons \citep[as in][]{schonbrodt_sequential_2017}. The user can set the \texttt{blind} argument to \texttt{TRUE}, and be completely blind to the results of the SBF procedure. The only output is a sentence that either indicates to "continue" or to "stop" the recruitment, considering an a-priori defined threshold (see \nameref{sec:supp} for code details). The main advantage of this solution is that it's a costless and ready-to-use solution.
 
-Moreover, this function also implements a combination of the automated proposed in the first part of this comment with triple blind. We reanalysed a dataset issued from of replication reported in the reproducibility project \citep{open_science_collaboration_estimating_2015}, using this function either to run a classical SBF procedure, or a SBF procedure in which experimenter and participants errors are iteratively removed from the considered dataset, or a SBF procedure in which errords as well as outliers are removed from the dataset. This example and results of the above three procedures can be found in the \nameref{sec:supp}. 
-
-To sum up, we suggest to combine automated data preprocessing with triple blinding of analyses, to ensure objectivity during sequential testing.
+Using this function, we reanalysed a dataset issued from the reproducibility project \citep{open_science_collaboration_estimating_2015}, and ran either a classical SBF procedure, or a SBF procedure in which experimenter and participants errors are iteratively removed from the considered dataset, or a SBF procedure in which errors as well as outliers are removed from the dataset. This example and results of the three procedures can be found in the \nameref{sec:supp}. To sum up, we suggest to combine automated data preprocessing with blind analyses, in order to ensure objectivity during sequential testing.
 
 \section{Limits}
 
