@@ -16,6 +16,7 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \newcommand*{\doi}[1]{\href{http://dx.doi.org/#1}{ #1}}
+\interfootnotelinepenalty=10000
 \linenumbers
 
 \fxsetup{theme=color,mode=multiuser}
@@ -26,8 +27,8 @@
 \title{Automation in Sequential Testing: A commentary on \cite{schonbrodt_sequential_2017}}
 
 \shorttitle{Blind Bayes Factor}
-\threeauthors{Amélie Bret}{Brice Beffara}{Ladislas Nalborczyk}
-\threeaffiliations{Univ. Grenoble Alpes, CNRS, LPNC, 38000 Grenoble, France \\ Psychological Science Research Institute, Catholic University of Louvain, Belgium \\ The Walden III Slowpen Science Laboratory, France}{The Walden III Slowpen Science Laboratory, Villeurbanne, France}{Department of Experimental Clinical and Health Psychology, Ghent University \\ The Walden III Slowpen Science Laboratory, Villeurbanne, France }
+\twoauthors{Brice Beffara \& Amélie Bret}{Ladislas Nalborczyk}
+\twoaffiliations{The Walden III Slowpen Science Laboratory, Villeurbanne, France}{Department of Experimental Clinical and Health Psychology, Ghent University \\ The Walden III Slowpen Science Laboratory, Villeurbanne, France }
 
 \abstract{In this article we discuss the use of the Sequential Bayes Factor (SBF) procedure as introduced by \cite{schonbrodt_sequential_2017} when confronted with real world data, which contrary to simulated data can be complicated to handle. For example, when fitting a model to real world data several choices must be made to ensure that subsequent model comparisons are sensible. The SBF procedure itself is expected to inform us about the adequate sample size to reach a conclusion based on sequential accumulating data. Accordingly, we suggest that one should also prepare the data in a sequential way before computing a Bayes Factor. We propose a full automation procedure, in line with the preregistration philosophy and allowing analyses blinding. We provide recommendations on how to implement this  without additional costs, while taking into account the specificity of the sequential testing situation.}
 
