@@ -1,4 +1,7 @@
 \documentclass[a4paper,man,natbib,floatsintext,donotrepeattitle]{apa6}
+% * <ladislas.nalborczyk@gmail.com> 2018-06-12T09:33:17.644Z:
+%
+% ^.
 
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
@@ -15,6 +18,8 @@
 \usepackage{amsfonts}
 \usepackage{booktabs}
 \usepackage{siunitx}
+\usepackage[symbol]{footmisc}
+
 \newcommand*{\doi}[1]{\href{http://dx.doi.org/#1}{ #1}}
 \interfootnotelinepenalty=10000
 \linenumbers
@@ -33,6 +38,12 @@
 \abstract{In this article we discuss the use of the Sequential Bayes Factor (SBF) procedure as introduced by \cite{schonbrodt_sequential_2017} when confronted with real world data, which contrary to simulated data can be complicated to handle. For example, when fitting a model to real world data several choices must be made to ensure that subsequent model comparisons are sensible. The SBF procedure itself is expected to inform us about the adequate sample size to reach a conclusion based on sequential accumulating data. Accordingly, we suggest that one should also prepare the data in a sequential way before computing a Bayes Factor. We propose a full automation procedure, in line with the preregistration philosophy and allowing analyses blinding. We provide recommendations on how to implement this  without additional costs, while taking into account the specificity of the sequential testing situation.}
 
 \keywords{Sequential Bayes Factor, sequential testing, automation, preregistration, blind analyses}
+
+
+\note{\vspace{2cm} Under peer review at Meta-Psychology.  Editorial process can be accessed at: \newline \href{https://osf.io/v2pnc}{\protect \nolinkurl{osf.io/v2pnc}}. Anyone can contribute with Open Peer Review. Contact the editor at \href{mailto:rickard.carlsson@lnu.se}{\nolinkurl{rickard.carlsson@lnu.se}}, or contribute directly in the OSF project. \textcolor{red}{\newline This manuscript has not yet been published. Cite at own risk.}}
+
+
+\authornote{Correspondence concerning this article should be addressed to Brice Beffara, The Walden III Slowpen Science Laboratory, 3 rue Flachet, 69100, Villeurbanne, France. E-mail: \href{mailto:brice.beffara@slowpen.science}{\nolinkurl{brice.beffara@slowpen.science}} }
 
 \begin{document}
 
@@ -54,7 +65,7 @@ Wordcount: This document contains \textbf{\quickwordcount}.
 
 In their paper, \cite{schonbrodt_sequential_2017} present an alternative to NHST with a priori power analysis (NHST-PA) by introducing the \textit{Sequential Bayes Factor} (SBF). The SBF allows for iterative data collection up until a predefined threshold and does not suffer from the pitfalls associated with NHST-PA. Testing mean differences between two independent groups, they show that the SBF design typically needs 50\% to 70\% smaller samples to reach a conclusion about the presence of an effect, as compared with optimal NHST-PA (where \textit{optimal} stands for an idealised situation in which the a priori targeted effect would be exactly equal to the population effect size), with both analyses showing similar long-term error rates.
 
-The procedure described in \cite{schonbrodt_sequential_2017} offers an attractive perspective on data collection and we generally agree with most of their recommendations. However, we would draw attention to precautions that need to be undertaken in order to preserve the long-term rates of wrong inference they provide. One major concern is that when dealing with real-world data many analysis choices can be made before comparing models (i.e., before computing a Bayes Factor). Depending on the type of data researchers might have to decide upon signal processing methods, the rejection of outliers and other potential prerequisites. Dealing with these choices without optionally stopping data collection entails that the data analyst should not interact with data during data collection. Hence, all these decisions have to be made and implemented beforehand. To this end, we propose a fully automatised sequential procedure from data extraction to model comparison. The procedure is embedded in the preregistration philosophy and in addition gives certain methodological advantages. 
+The procedure described in \cite{schonbrodt_sequential_2017} offers an attractive perspective on data collection and we generally agree with most of their recommendations. However, we would draw attention to precautions that need to be undertaken in order to preserve the long-term rates of wrong inference they provide. One major concern is that when dealing with real-world data many analysis choices can be made before comparing models (i.e., before computing a Bayes Factor). Depending on the type of data researchers might have to decide upon signal processing methods, the rejection of outliers and other potential prerequisites. Dealing with these choices without optionally stopping data collection entails that the data analyst should not interact with data during data collection. Hence, all these decisions have to be made and implemented beforehand. To this end, we propose a fully automated sequential procedure from data extraction to model comparison. The procedure is embedded in the preregistration philosophy and in addition gives certain methodological advantages. 
 
 \section{Intrapersonal biases in SBF procedure}
 
@@ -65,7 +76,7 @@ The SBF procedure has been validated based on simulated data \citep{schonbrodt_s
 
 When carefully decided, we propose that all these treatments should be automated and performed at each step of the sequential testing procedure. This way, data preparation and verification such as outliers' detection, data transformation or checking model assumptions, would be done in an incremental manner. The entire dataset would be continually reanalysed, including former outliers, so that the process would follow the progressive incorporation of new observations (i.e., such a procedure should be able to take into account that an extreme observation at time \textit{t} might not be extreme anymore at time \textit{t+n}). The fact that this iterative procedure is automated should prevent the data analyst from classical traps during data manipulation. Theses traps could have much more important consequences in SBF in comparison to traditional procedures due to the incremental nature of evidence accumulation. Besides, this idea fits well with the open science philosophy and with preregistration practices. Indeed, we propose that these steps could be programmed and coded on the basis of preregistered choices, before starting to collect data. Preregistered automated data analysis would therefore ensure the error rates of empirical SBF procedures to be similar to the long-term error rates provided by \cite{schonbrodt_sequential_2017} using simulation, and explicitly fulfill the requirements of transparent and reproducible science. \par
 
-Applying full automation of data preparation during the SBF procedure, we aim to bring it closer to the recommendations of \cite{schonbrodt_sequential_2017}, by reducing possible intermediate influences that could be encountered both at the data collection and data analysis levels. Besides these considerations of the data analysis, a fully automated SBF should also avoid the influence of basic mechanisms on data collection at an intermediate level.
+Applying full automation of data preparation during the SBF procedure, we aim to bring it closer to the recommendations of \cite{schonbrodt_sequential_2017}, by reducing possible biases that could be encountered during intermediate data analysis. Besides, a fully automated SBF could also prevent the inflation of social influences during data collection.
 
 \section{Interpersonal biases in SBF procedure}
 
@@ -126,7 +137,9 @@ Whilst not widespread in psychology due to the availability of materials and tim
 
 Another solution is to automate analysis blinding so that the data analyst and the experimenter (who can be the same person) are blind to BFs computed on previous sets of observations. To illustrate this idea we wrote a short function allowing SBF to be run for two-independent groups comparisons \citep[as in][]{schonbrodt_sequential_2017}. The user can set the \texttt{blind} argument to \texttt{TRUE} and be completely blind to the results of the SBF procedure. The only output is a sentence that either indicates to "continue" or to "stop" the recruitment, considering an a priori defined threshold (see \nameref{sec:supp} for code details). The advantage of this being a costless and ready-to-use solution.
 
-Using this function we reanalysed a dataset issued from the reproducibility project \citep{open_science_collaboration_estimating_2015} and ran three analyses i) a classical SBF procedure, ii) an SBF procedure in which experimenter and participants errors were iteratively removed from the considered dataset, and iii) a SBF procedure in which errors as well as outliers were removed from the dataset. Results of the three procedures can be found in the \nameref{sec:supp}. We suggest combining automated data preprocessing with blind analyses in order to ensure objectivity during sequential testing.
+As a mere example of how to use this function, we reanalysed a dataset issued from the reproducibility project \citep{open_science_collaboration_estimating_2015} and ran three analyses i) a classical SBF procedure, ii) an SBF procedure in which experimenter and participants errors were iteratively removed from the considered dataset, and iii) a SBF procedure in which errors as well as outliers were removed from the dataset. Detailed code can be found in the \nameref{sec:supp}.
+\newline
+By automating data preprocessing with this kind of function, analyses can easily be blind, ensuring objectivity during sequential testing.
 
 \section{Limits}
 
@@ -138,12 +151,11 @@ The current article proposes a straightforward approach for analysis blind desig
 
 \section{Supplementary materials}\label{sec:supp}
 
-Reproducible code and supplementary materials can be found on OSF: \url{osf.io/mwtvk
-}.
+Reproducible code and supplementary materials can be found on OSF: \href{https://osf.io/mwtvk}{\nolinkurl{osf.io/mwtvk}}.
 
 \section{Acknowledgements}
 
-We thank Hans Ijzerman for helpful comments on a previous version of this manuscript and Edward Collett for his help with manuscript English proof reading.
+We thank Hans IJzerman for helpful comments on a previous version of this manuscript and Edward Collett for his help with manuscript English proof reading.
 
 \bibliography{BBF}
 
