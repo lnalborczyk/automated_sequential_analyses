@@ -1,0 +1,10 @@
+name: blind_sequential_analyses
+title:
+username:
+account: barelysignificant
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 775999
+bundleId: 2550969
+url: https://barelysignificant.shinyapps.io/blind_sequential_analyses/
+when: 1572434808.69375
