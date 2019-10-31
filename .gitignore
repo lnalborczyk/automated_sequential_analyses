@@ -2,3 +2,6 @@ scripts/.Rhistory
 scripts/.RData
 .Rproj.user
 .httr-oauth
+.Rhistory
+.RData
+.gitignore
