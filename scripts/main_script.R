@@ -5,7 +5,7 @@
 # Sequential analyses procedure, main script
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last update: April 26, 2019
+# Last update: March 2, 2021
 ################################################################
 
 #########################################################
@@ -13,7 +13,7 @@
 ###################################################
 
 # ggplot2 themes
-if (!require("hrbrthemes") ) install.packages("hrbrthemes"); library("hrbrthemes")
+# if (!require("hrbrthemes") ) install.packages("hrbrthemes"); library("hrbrthemes")
 
 # Data formatting, manipulation, and ploting
 if (!require("tidyverse") ) install.packages("tidyverse"); library("tidyverse")
@@ -36,14 +36,14 @@ if (!require("osfr") ) {
 
 }
 
-###########################################################################
+#########################################################################
 # set working directory to the script's parent folder
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # ! temporary solution, only works with RStudio... !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # ---------------------------------------------------------------
-#setwd(dirname(rstudioapi::getActiveDocumentContext()$path) )
-setwd("/Users/Ladislas/Desktop/Blind_BF")
+
+# setwd(dirname(rstudioapi::getActiveDocumentContext()$path) )
 
 ###################################################################
 # Scheduling task (retrieving data and running analyses)
@@ -91,7 +91,7 @@ tasks <- cron_ls(id = "sequential_testing")
 # if it does not exist yet, create automation to run script every hour
 if (is.null(tasks) ) {
     
-    script <- cron_rscript("main_script.R", log_append = FALSE)
+    script <- cron_rscript("scripts/main_script.R", log_append = FALSE)
     cron_add(script, frequency = "hourly", id = "sequential_testing")
     
 }
@@ -108,7 +108,7 @@ if (is.null(tasks) ) {
 ######################################################
 
 # count the number of datafiles that have already been downloaded
-n_data <- list.files(path = ".", pattern = "csv") %>% length %>% as.numeric
+n_data <- list.files(path = "data/", pattern = "csv") %>% length %>% as.numeric
 
 # retrieve OSF data
 osf_data <-
@@ -131,7 +131,7 @@ if (nrow(osf_data) > n_data) {
         # for each line (each csv file)
         {split(., 1:nrow(.) )} %>%
         # download it
-        lapply(osf_download, overwrite = TRUE)
+        lapply(osf_download, conflicts = "overwrite")
         # download it and put it in the "data" folder
         # lapply(osf_download, path = paste(here("data"), .$name, sep = "/ "), overwrite = TRUE)
         # lapply(osf_download, path = glue::glue(here("data"), .$name, sep = ""), overwrite = TRUE)
@@ -148,7 +148,7 @@ if (nrow(osf_data) > n_data) {
 
 # listing all cvs files
 data_files <- 
-    list.files(path = ".", pattern = "csv") %>%
+    list.files(path = "data/", pattern = "csv") %>%
     # converting to dataframe
     data.frame(file = ., stringsAsFactors = FALSE) %>%
     # removing "deleted" files
@@ -164,7 +164,7 @@ for (i in 1:nrow(data_files) ) {
     if (i == 1) data <- NULL
     
     # import data in a dataframe
-    d <- read.csv(data_files$file[i]) # %>% data.frame
+    d <- read.csv(paste0("data/", data_files$file[i]) ) # %>% data.frame
     
     if (nrow(d) == 0) { # if file is empty
         
@@ -203,13 +203,13 @@ rm(list = setdiff(ls(), "data") )
 # 2) Fitting it sequentially
 ################################################
 
-# defining/fitting the model (multilevel exgaussian model)
+# defining/fitting the model (multilevel ExGaussian model)
 
 model <- brm(
     resp.rt ~ 1 + congruency + (1 + congruency | participant),
     # exgaussian model
     family = exgaussian(),
-    # defining weakly informative priors (for the scale of the data)
+    # defining weakly informative priors (on the scale of the data)
     prior = c(
         # prior(normal(500, 100), class = Intercept),
         prior(normal(0, 10), class = b)
@@ -229,9 +229,9 @@ model <- brm(
     sample_prior = TRUE
     )
 
-# retrieving the sequential_analysis() function (should be in the same repository)
+# retrieving the sequential_analysis() function
 
-source("sequential_analyses.R")
+source("scripts/sequential_analyses.R")
 
 # running and storing the results of the sequential analysis (stop or continue)
 # see sequential_analyses.R for documentation on the function arguments

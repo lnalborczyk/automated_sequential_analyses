@@ -6,10 +6,10 @@
 # Adapted from https://github.com/psy-farrell/computational-modelling
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last update: March 4, 2019
+# Last update: March 2, 2021
 #############################################################
 
-if (!require("hrbrthemes") ) install.packages("hrbrthemes"); library("hrbrthemes");
+# if (!require("hrbrthemes") ) install.packages("hrbrthemes"); library("hrbrthemes");
 if (!require("tidyverse") ) install.packages("tidyverse"); library("tidyverse");
 if (!require("patchwork") ) install.packages("patchwork"); library("patchwork");
 
@@ -104,7 +104,8 @@ plot1 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    theme_ipsum_rc(base_size = 14) +
+    # theme_ipsum_rc(base_size = 14) +
+    theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
         subtitle = "Here for no effect (drift = 0) and no bias (prior = 0)",
@@ -120,7 +121,8 @@ plot2 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    theme_ipsum_rc(base_size = 14) +
+    # theme_ipsum_rc(base_size = 14) +
+    theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
         subtitle = "Here for no effect (drift = 0) and medium bias toward H1 (prior = 0.5)",
@@ -136,7 +138,8 @@ plot3 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    theme_ipsum_rc(base_size = 14) +
+    # theme_ipsum_rc(base_size = 14) +
+    theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
         subtitle = "Here for medium effect (drift = 1) and medium bias toward H1 (prior = 0.5)",
@@ -152,7 +155,8 @@ plot4 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    theme_ipsum_rc(base_size = 14) +
+    # theme_ipsum_rc(base_size = 14) +
+    theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
         subtitle = "Here for medium effect (drift = 1) and medium bias toward H0 (prior = -0.5)",
