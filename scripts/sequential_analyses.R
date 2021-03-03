@@ -1,6 +1,6 @@
 #######################################################################
-# R code accompanying Beffara, Bret & Nalborczyk (2019)
-# OSF projet: https://osf.io/mwtvk/
+# R code accompanying Beffara, Bret & Nalborczyk (2021)
+# OSF project: https://osf.io/mwtvk/
 # ---------------------------------------------------------
 # Sequential analysis function
 # Written by Ladislas Nalborczyk

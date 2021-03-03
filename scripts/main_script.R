@@ -1,11 +1,11 @@
 #######################################################################
-# R code accompanying Beffara, Bret & Nalborczyk (2019)
-# OSF projet: https://osf.io/mwtvk/
+# R code accompanying Beffara, Bret & Nalborczyk (2021)
+# OSF project: https://osf.io/mwtvk/
 # ---------------------------------------------------------
 # Sequential analyses procedure, main script
 # Written by Ladislas Nalborczyk
 # E-mail: ladislas.nalborczyk@gmail.com
-# Last update: March 2, 2021
+# Last update: March 3, 2021
 ################################################################
 
 #########################################################
@@ -138,7 +138,7 @@ if (nrow(osf_data) > n_data) {
 
     } else {
     
-    quit(save = "no")
+    # quit(save = "no")
     
     }
     
@@ -239,11 +239,12 @@ source("scripts/sequential_analyses.R")
 results <- sequential_analysis(
     model, cleaning = TRUE, type = "SBF",
     nmin = 20, step = 1, hypothesis = "congruency = 0",
-    threshold = 20, rope = c(-0.1, 0.1), precision = 0.16, blind = FALSE
+    threshold = 20, rope = c(-0.1, 0.1), precision = 0.16, blind = TRUE
     )
 
 # saving the SBF evolution
-# save(results, file = "sbf_evolution.rds")
+# save(results, file = "results/sbf_evolution.rds")
+# load("results/sbf_evolution.rds")
 
 # plotting the evolution
 
@@ -261,13 +262,13 @@ results <- sequential_analysis(
 #     geom_line() +
 #     geom_smooth(colour = "black", method = "lm") +
 #     geom_point(pch = 21, fill = "white", size = 2) +
-#     hrbrthemes::theme_ipsum_rc() +
+#     theme_bw() +
 #     labs(
 #         title = "Evolution of the sequential Bayes factor procedure",
 #         subtitle = expression(
 #             paste(
 #                 "Evolution of the  ", BF[10], " computed from ",
-#                 n[min], " = 20 participants to ", n[max],
+#                 n[min], " = 20 participants to ", n,
 #                 " = 45 participants", sep = ""
 #                 )
 #             ),
@@ -279,8 +280,11 @@ results <- sequential_analysis(
 # Sending the results by e-mail (using gmailr)
 ######################################################
 
+# configure gmail app
+# gm_auth_configure()
+
 email <- # writes email
-    mime(
+    gm_mime(
         To = "brice.beffara@gmail.com",
         To = "ameliebret@gmail.com",
         To = "ladislas.nalborczyk@gmail.com",
@@ -290,7 +294,7 @@ email <- # writes email
         )
 
 # sends email
-send_message(email)
+gm_send_message(email)
 
 # quits rstudio
-quit(save = "no")
+# quit(save = "no")

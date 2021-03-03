@@ -1,6 +1,6 @@
 #######################################################################
-# R code accompanying Beffara, Bret & Nalborczyk (2019)
-# OSF projet: https://osf.io/mwtvk/
+# R code accompanying Beffara, Bret & Nalborczyk (2021)
+# OSF project: https://osf.io/mwtvk/
 # ---------------------------------------------------------
 # Modelling SBF trajectories using a simple random-walk model
 # Adapted from https://github.com/psy-farrell/computational-modelling
@@ -9,13 +9,12 @@
 # Last update: March 2, 2021
 #############################################################
 
-# if (!require("hrbrthemes") ) install.packages("hrbrthemes"); library("hrbrthemes");
 if (!require("tidyverse") ) install.packages("tidyverse"); library("tidyverse");
 if (!require("patchwork") ) install.packages("patchwork"); library("patchwork");
 
 ##########################################################################
 # Parameters
-# --------------
+# --------------------------------------------------------------------
 # nsims: number of random walks (number of simulations/experiments)
 # nsamples: number of times evidence is being sampled (number of observations)
 # origin: starting value (should be 0 for a log(BF))
@@ -104,7 +103,6 @@ plot1 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    # theme_ipsum_rc(base_size = 14) +
     theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
@@ -121,7 +119,6 @@ plot2 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    # theme_ipsum_rc(base_size = 14) +
     theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
@@ -138,7 +135,6 @@ plot3 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    # theme_ipsum_rc(base_size = 14) +
     theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
@@ -155,7 +151,6 @@ plot4 <-
     ggplot(aes(x = obs, y = bf, group = sim) ) +
     geom_hline(yintercept = 0, linetype = 2) +
     geom_line(alpha = 0.3) +
-    # theme_ipsum_rc(base_size = 14) +
     theme_bw(base_size = 14) +
     labs(
         title = "Simulating the evolution of SBF trajectories",
